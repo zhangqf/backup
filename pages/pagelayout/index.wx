@@ -1,0 +1,1739 @@
+<template>
+    <view>
+        <view  style="position:relative; overflow:auto;" >
+           
+            <view  wx:for="{{dataArr}}" wx:for-item="item" wx:key="key" >
+                
+                   <view wx:if="{{imageShow}}" bindtap="cacleImageShow" style="position:absolute;background:rgba(33,33,33,.4);width:750rpx;height:1334rpx; z-index:11;top:0;left:0">
+                        <!-- <image src="{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].subscribeImageURL}}" style="position: absolute;left: 0;right: 0;margin: auto;top: 13%;height:667rpx;width:680rpx;" /> -->
+                        <image src="{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].subscribeImageURL}}"  style="position: absolute;left: 0;right: 0;margin: auto;top: 13%;height:667rpx;width:680rpx;" />
+                    </view>
+                <!-- <view> -->
+                <!-- 会员卡 -->
+                        <!-- <block >
+                            <view class="ui-content" wx:if="{{is_membership_card}}">
+                                <view class="membership_card" style="background:{{item.cardTextColor}}" >{{item.cardTextColor}}
+                                </view>
+                            </view>
+                        </block> -->
+
+                <!-- 个人信息 -->
+                        <block  >
+                           
+                            <view class="ui-content" wx:if="{{item.moduleType==110}}" style="margin-bottom:24rpx;position:relative;">
+                               
+                                <view class="personal" style="background-image:url({{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].imageURL!=null?empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].imageURL:imageURLdefault}});background-repeat: no-repeat;background-size:100%" >
+                                    <block wx:if="{{_isRegisterContent}}">
+                                        <view class="personal-title">
+                                            <image class="image" data-url="{{item.moduleEmpData.clickLogoJumpURL}}" bindtap="gotoClickLogoJump"  src="{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].avatarUrl==null?empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].logo:empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].avatarUrl}}"/>
+                                            <view class="ui-radius">
+                                                <text class="person-emName">{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empAlias}}</text>
+                                                <view wx:if="{{item.moduleEmpData.isShowEmpLevel&&empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empLevelDisplayName}}" class="gold-membership-card">{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empLevelDisplayName}}</view>
+                                                <view class="ui-phoneitems">
+                                                    <text class="person-phoneNum" wx:if="{{item.moduleEmpData.isShowEmpEndDay&&empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].endDay}}">{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].endDaystr}}</text>
+                                                    <text class="person-phoneNum" wx:if="{{item.moduleEmpData.isShowPhone&&empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].phone}}">{{item.moduleEmpData.isShowPhoneFilter==false?empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].phone:empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].phoneFilter}}</text>
+                                                </view>
+                                            </view>
+                                            <image wx:if="{{item.moduleEmpData.isShowEmpQRCode}}" bindtap="goToQRcode" class="person-qrcode" src="../../images/QRcode.png"></image>
+                                        </view>
+                                        <view class="ui-text" style="color:{{item.moduleEmpData.empNameColor}}" wx:if="{{item.moduleEmpData.isShowEmpName&&empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empName}}">{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empName}}</view>
+                                        <view class="ui-personalitems">
+                                            <view wx:if="{{item.moduleEmpData.isShowPerfectEmpInfo&&empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].isShowPerfectEmpInfo}}" 
+                                             bindtap="linkToEmpInfo" class="ui-personalitem">
+                                                <image class="ui-tipimg person-perfectinformation" src="../../images/perfectinformation.png"></image>完善资料</view>
+                                            <view wx:if="{{item.moduleEmpData.isShowSignIn&&empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].isShowSignIn}}" 
+                                             bindtap="linkToEmpSubscribe" class="ui-personalitem">
+                                                <image class="ui-tipimg person-signin" src="../../images/signin.png"></image>签到有礼</view>
+                                            <view wx:if="{{item.moduleEmpData.isShowWeixinEmpSubscribe&&empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].isShowWeixinEmpSubscribe}}"
+                                            bindtap="linkToEmpSignIn" class="ui-personalitem">
+                                                <image class="ui-tipimg person-membernotification" src="../../images/membernotification.png"></image>会员通知</view>
+                                        </view>
+                                       
+                                    </block>
+                                    <block wx:if="{{!_isRegisterContent}}">
+                                        <view class="personal-title" wx:if="{{_isShowButtonGetUserInfo}}">
+                                            <image class="image"  src="{{avatarUrl==''?empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].logo:avatarUrl}}"/>
+                                            <view class="ui-radius">
+                                                <text class="person-emName">{{nickName!=''?nickName:empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].title}}</text>
+                                            </view>
+                                        </view>
+                                        <view class="personal-title" wx:if="{{!_isShowButtonGetUserInfo}}">
+                                            <image class="image"  src="{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].avatarUrl==null?empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].logo:empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].avatarUrl}}"/>
+                                            <view class="ui-radius">
+                                                <text class="person-emName">{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empAlias!=null?empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empAlias:empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].title}}</text>
+                                            </view>
+                                        </view>
+                                           <view class="ui-button"  wx:if="{{_canIUse&&_isShowButtonGetUserInfo}}">
+                                                <button  open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindGetUserInfo">授权登录</button>
+                                           </view>
+                                            <view class="ui-button"  wx:if="{{!_isShowButtonGetUserInfo&&_isRegister}}">
+                                                <button open-type="getPhoneNumber"  lang="zh_CN" bindgetphonenumber="getPhoneNumber" data-arr="{{item.moduleEmpData}}" data-index={{index}}>开通会员</button>
+                                           </view>
+                                    </block>
+                                    
+                                </view>
+                                <view class="emp-item">
+                                    <view  wx:for="{{item.moduleEmpData.listItem}}" wx:for-item="empitem" wx:for-index="empIndex" wx:key="key" wx:if="{{empIndex<=3}}">
+                                        <view class="ui-empitems" wx:if={{empitem.itemType==110}}>
+                                            <view class="ui-empitemsNo">{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empMoney==null?"-":empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empMoney}}</view>
+                                            <view class="ui-empitemstitle"><image wx:if="{{empitem.icon!=''&&empitem.icon!='undefined'&&empitem.icon!=null}}" src="{{empitem.icon}}" alt/>储值</view>
+                                        </view>
+                                         <view class="ui-empitems" wx:if={{empitem.itemType==120}}>
+                                              <view class="ui-empitemsNo">{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empPoint==null?"-":empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empPoint}}</view>
+                                           <view class="ui-empitemstitle"><image wx:if="{{empitem.icon!=''&&empitem.icon!='undefined'&&empitem.icon!=null}}" src="{{empitem.icon}}" alt/>积分</view>
+                                        </view>
+                                         <view class="ui-empitems" wx:if={{empitem.itemType==130}}>
+                                             <view class="ui-empitemsNo">{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empGrowth==null?"-":empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empGrowth}}</view>
+                                            <view class="ui-empitemstitle"><image wx:if="{{empitem.icon!=''&&empitem.icon!='undefined'&&empitem.icon!=null}}" src="{{empitem.icon}}" alt/>成长值</view>
+                                        </view>
+                                         <view class="ui-empitems" wx:if={{empitem.itemType==210}}>
+                                             <view class="ui-empitemsNo">{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empLevelDisplayName==null?"-":empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].empLevelDisplayName}}</view>
+                                            <view class="ui-empitemstitle"><image wx:if="{{empitem.icon!=''&&empitem.icon!='undefined'&&empitem.icon!=null}}" src="{{empitem.icon}}" alt/>等级</view>
+                                        </view>
+                                         <view class="ui-empitems" wx:if={{empitem.itemType==310}}>
+                                             <view class="ui-empitemsNo">{{empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].couponNum==null?"-":empmoudleContentData['_empmoduelContentSubDetial'+activeIndex+index].couponNum}}</view>
+                                            <view class="ui-empitemstitle"><image wx:if="{{empitem.icon!=''&&empitem.icon!='undefined'&&empitem.icon!=null}}" src="{{empitem.icon}}" alt/>优惠券</view>
+                                        </view>
+                                         <view class="ui-empitems" wx:if={{empitem.itemType==999}}>
+                                             <view class="ui-empitemsNo">{{empitem.customValue}}</view>
+                                            <view class="ui-empitemstitle"><image wx:if="{{empitem.icon!=''&&empitem.icon!='undefined'&&empitem.icon!=null}}" src="{{empitem.icon}}" alt/>{{empitem.title}}</view>
+                                        </view>
+                                    </view>
+                                </view>
+                                
+                            </view>
+                        </block>
+                <!-- 轮播图 -->
+                        <block wx:if="{{item.moduleType==910}}">
+                            <view class="ui-content" style="padding:24rpx 0">
+                           
+                                
+                                <swiper class="three_swiper" circular current="0" indicator-color="rgba(51, 51, 51, 0.3)" indicator-active-color="#ff2a00" 
+                                autoplay=true interval="{{_carouselDetail['_carouselSubDetail'+activeIndex+index].interval}}"
+                                circular=true easing-function="easeInOutCubic">
+                                    <swiper-item wx:for="{{_carouselDetail['_carouselSubDetail'+activeIndex+index].pages}}" wx:for-item="carouseImage" wx:key="key">
+                                        <view class="swiper_item" bindtap="goBannerLink" data-url="{{carouseImage.url}}">
+                                            <image  src="{{carouseImage.imageURL}}" mode="scaleToFill" />
+                                            <!-- <view>{{carouseImage.title}}</view> -->
+                                        </view>
+                                    </swiper-item>
+                                </swiper>
+                            </view>
+                        </block>
+                    <!-- 图文 -->
+                         <block wx:if="{{item.moduleType==920}}">
+                            <view class="ui-content ui-imageContent" >
+                              
+                            <import src="../../plugin/wxParse/wxParse.wxml"/>
+                            <!-- //这里data中article为bindName -->
+                            <template is="wxParse" data="{{wxParseData:objimage['_moduleContentSubDetail'+activeIndex+index].nodes}}"/>
+                            </view>
+                        </block>
+                     <!-- 图片 -->
+                         <block wx:if="{{item.moduleType==900}}">
+                            <view class="ui-content">
+                              <image class="ui-picImage" mode="widthFix" src="{{item.moduleImageData.imageURL}}" lazy-load=true show-menu-by-longpress=true data-url="{{item.moduleImageData.linkURL}}"
+                              data-linkJumpType="{{item.moduleImageData.linkJumpType}}" bindtap="goImageLink"></image>
+                            </view>
+                        </block>
+                <!-- 功能项 -->
+                        <block wx:if="{{item.moduleType==930}}">
+                            <!-- 九宫格 -->
+                            <view class="ui-content ui-full" wx:if="{{item.moduleFunctionData.functionType==10}}" style="background:{{item.moduleFunctionData.backgroundColor}}">
+                                <view class="ui-linetitle">{{item.moduleFunctionData.title}}</view>
+                                <ui-row class="ui-entry" wx:for="{{naturalNumberarr}}"  wx:for-item="Num" wx:key="key" border-top style="background:{{item.moduleFunctionData.backgroundColor}}">
+                                    <ui-col wx:for="{{item.moduleFunctionData.listItem}}"  wx:for-item="custom" wx:key="key" wx:if="{{index>=Num*item.moduleFunctionData.showItemNumByRow&&index<(Num+1)*item.moduleFunctionData.showItemNumByRow}}"  
+                                    class="ui-col {{index!=(Num+1)*item.moduleFunctionData.showItemNumByRow?'ui-borderRight':'ui-borderNone'}}" align="center" vertical-align="middle" >
+                                        <view bindtap="goFucntionLink" hover-class="navigator-hover" class="btnitems" data-url="{{custom.linkURL}}" data-jumpType="{{custom.jumpType}}"
+                                         data-linkJumpType="{{custom.linkJumpType}}"  data-appid ="{{custom.miniProgramAppID}}"
+                                        data-phone="{{custom.phone}}" data-isNew="{{custom.isNew}}" data-isHot="{{custom.isHot}}" data-isOnlyEmp="{{custom.isOnlyEmp}}" 
+                                        data-isComingSoon="{{custom.isComingSoon}}" data-comingSoonText="{{custom.comingSoonText}}" >
+                                            <!-- <span class="ui-icons icon-xinyongqia ui-size"></span> -->
+                                            <view wx:if="{{custom.isOnlyEmp}}" class="ui-myiconvip"><image src="../../images/vip.png" /></view>
+                                            <view wx:if="{{custom.isHot}}" class="ui-myiconhot" ><image src="../../images/listhot.png" /></view>
+                                            <view wx:if="{{custom.isComingSoon}}" class="ui-myiconwait">
+                                                <image src="../../images/comingsoon.png" />
+                                            </view>
+                                                <view wx:if="{{custom.isNew}}" class="ui-myiconnew" ><image src="../../images/newright.png" /></view>
+                                            <image wx:if="{{custom.icon!=''&&custom.icon!=null&&custom.icon!='undefined'}}" src="{{custom.icon}}" class="ui-entryImage" />
+                                            <text class="ui-clotext">{{custom.title}}</text>
+                                        </view>
+                                    </ui-col>
+                                </ui-row>
+                            </view>
+                            <!-- 单行 -->
+                           <view class="ui-lineScroll" wx:if="{{item.moduleFunctionData.functionType==20}}" style="background:{{item.moduleFunctionData.backgroundColor}}">
+                                <view class="ui-linetitle">{{item.moduleFunctionData.title}}</view>
+                                <scroll-view scroll-x="true" style=" white-space: nowrap; display: flex ;flex-direction: row; enable-flex:true;background: #ffff;height:200rpx;">
+                                        <view class="ui-lineScrollContent {{item.moduleFunctionData.isShowGridLine==true?'ui-borderRight':'ui-borderNone'}}" wx:for="{{item.moduleFunctionData.listItem}}" wx:for-item="lineitem" wx:key="key" 
+                                        
+                                        >
+                                            <view class="ui-lineScrollContentDisplayFlex" bindtap="goFucntionLink" data-url="{{lineitem.linkURL}}"
+                                data-jumpType="{{lineitem.jumpType}}" data-linkJumpType="{{lineitem.linkJumpType}}" data-appid = "{{lineitem.miniProgramAppID}}" data-phone="{{lineitem.phone}}"
+                                 data-isNew="{{lineitem.isNew}}" data-isHot="{{lineitem.isHot}}" data-isOnlyEmp="{{lineitem.isOnlyEmp}}" 
+                                        data-isComingSoon="{{lineitem.isComingSoon}}" data-comingSoonText="{{lineitem.comingSoonText}}" hover-class="bg_ccc"
+                                >
+                                                 <view class="ui-myiconvip" wx:if="{{lineitem.isOnlyEmp}}"><image src="../../images/vip.png" /></view>
+                                                    <view class="ui-myiconhot" wx:if="{{lineitem.isHot}}"><image src="../../images/listhot.png" /></view>
+                                                    <view class="ui-myiconwait"  wx:if="{{lineitem.isComingSoon}}">
+                                                        <image src="../../images/comingsoon.png" />
+                                                    </view>
+                                                <image  wx:if="{{lineitem.icon!=''&&lineitem.icon!=null&&lineitem.icon!='undefined'}}" src="{{lineitem.icon}}"  />
+                                                <text class="ui-clotext">{{lineitem.title}}</text>
+                                            </view>
+                                        </view>
+                                       
+                                </scroll-view>
+                             </view>
+                             <!-- 多行 -->
+                             <view class="ui-contentline" class="top_tip"  wx:if="{{item.moduleFunctionData.functionType==30}}" style="background:{{item.moduleFunctionData.backgroundColor}}">
+                                <view class="ui-linetitle">{{item.moduleFunctionData.title}}</view>
+                                <ui-row height="55" border-bottom hover-class="touchui-hover" wx:for="{{item.moduleFunctionData.listItem}}" wx:for-item="custom_list" wx:key="key" bindtap="goFucntionLink" data-url="{{custom_list.linkURL}}"
+                                data-jumpType="{{custom_list.jumpType}}" data-linkJumpType="{{custom_list.linkJumpType}}"
+                                 data-appid = "{{custom_list.miniProgramAppID}}" data-phone="{{custom_list.phone}}"
+                                  data-isNew="{{custom_list.isNew}}" data-isHot="{{custom_list.isHot}}" data-isOnlyEmp="{{custom_list.isOnlyEmp}}" 
+                                data-isComingSoon="{{custom_list.isComingSoon}}" data-comingSoonText="{{custom_list.comingSoonText}}"
+                                 >
+                                    <ui-col width="44" align="center" vertical-align="middle">
+                                        <view class="left_icon">
+                                            <image wx:if="{{custom_list.icon!=''&&custom_list.icon!=null&&custom_list.icon!='undefined'}}" src="{{custom_list.icon}}" alt></image>
+                                        </view>
+                                    </ui-col>
+                                    <ui-col class="text" align="left" vertical-align="middle" >
+                                        <view style="width: 100%;">
+                                            <ui-row >
+                                                <ui-col align="left" vertical-align="middle" class="ui-middle" >
+                                                   <view class="ui-linemiddle">
+                                                     <text>{{custom_list.title}}</text>
+                                                     <image wx:if="{{custom_list.isNew}}" class="line-new" src="../../images/newleft.png" /> 
+                                                      <image wx:if="{{custom_list.isHot}}" class="line-hot" src="../../images/listhot.png" />
+                                                    <image wx:if="{{custom_list.isOnlyEmp}}" class="line-vip" src="../../images/listvip.png" />
+                                                     <image wx:if="{{custom_list.isComingSoon}}" class="line-comingsoon" src="../../images/comingsoon.png" />
+                                                   </view>
+                                                </ui-col>
+                                                <ui-col align="right" width="100" vertical-align="middle" space-right="10" >
+                                                   <view class="ui-left" >
+                                                    <text>{{custom_list.description}}</text>
+                                                    <image class="ui-leftarrow" src="../../images/leftarrow.png"></image>
+                                                   </view>
+                                                </ui-col>
+                                            </ui-row>
+                                          
+                                        </view>
+                                    </ui-col>
+                                </ui-row>
+                            </view>
+                        </block>
+                    
+          
+            </view>
+            
+            <view style="height:{{NAV_HEIGHT}}; background:#f7f7f7;" ></view>
+        </view>
+
+        <ui-fixed-view bottom="0" left="0" right="0" wx:if="{{navigateData.length>1}}" >
+            <view class="fixed-view-content" >
+                <view class="fixed-items" style="background:{{_tarbarBackgroundColor}}"
+                wx:for="{{navigateData}}" wx:for-item="tarbar"  wx:key="key" data-num="{{index}}" data-isOnlyEmp="{{tarbar.isOnlyEmp}}"
+                bindtap="btntarbar">
+                    <image class="tarimg" src="{{index==activeIndex?tarbar.selectIcon:tarbar.icon}}"/>
+                    <view class="displayname" style="color:{{index==activeIndex?_checkedFontColor:_frontColor}};">{{tarbar.title}}</view>
+                </view>
+                <!-- <view class="fixed-items" hover-class="btn_hover_list">c</view> --> 
+            </view>
+        </ui-fixed-view>
+    </view>
+</template>
+
+<script>
+const ht = require("../../js/ht.js");
+const storage = require("../../js/storage.js");
+const config = require("../../js/config.js");
+const app = getApp();
+const WxParse = require("../../plugin/wxParse/wxParse.js");
+
+export default {
+  config: {
+    navigationBarTitleText: "首页",
+    backgroundColor: "#F4F4F4",
+    navigationBarTextStyle: "black"
+  },
+  data: {
+    _canIUse: wx.canIUse("button.open-type.getUserInfo"),
+    _isShowButtonGetUserInfo:true,
+    _isRegister:false,
+    _isRegisterContent:false,
+
+    imageURLdefault:"data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAAIAAD/4QMvaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjYtYzE0NSA3OS4xNjM0OTksIDIwMTgvMDgvMTMtMTY6NDA6MjIgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE5IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoxQkFDMUFCMDFFNDUxMUVBOUIzN0FENEIyN0JBOEYyOSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoxQkFDMUFCMTFFNDUxMUVBOUIzN0FENEIyN0JBOEYyOSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjFCQTBEMDE5MUU0NTExRUE5QjM3QUQ0QjI3QkE4RjI5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjFCQTBEMDFBMUU0NTExRUE5QjM3QUQ0QjI3QkE4RjI5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+IMWElDQ19QUk9GSUxFAAEBAAAMSExpbm8CEAAAbW50clJH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l3WX4JhMmLiZJJmQmfyaaJrVm0Kbr5wcnImc951kndKeQJ6unx2fi5/6oGmg2KFHobaiJqKWowajdqPmpFakx6U4pammGqaLpv2nbqfgqFKoxKk3qamqHKqPqwKrdavprFys0K1ErbiuLa6hrxavi7AAsHWw6rFgsdayS7LCszizrrQltJy1E7WKtgG2ebbwt2i34LhZuNG5SrnCuju6tbsuu6e8IbybvRW9j74KvoS+/796v/XAcMDswWfB48JfwtvDWMPUxFHEzsVLxcjGRsbDx0HHv8g9yLzJOsm5yjjKt8s2y7bMNcy1zTXNtc42zrbPN8+40DnQutE80b7SP9LB00TTxtRJ1MvVTtXR1lXW2Ndc1+DYZNjo2WzZ8dp22vvbgNwF3IrdEN2W3hzeot8p36/gNuC94UThzOJT4tvjY+Pr5HPk/OWE5g3mlucf56noMui86Ubp0Opb6uXrcOv77IbtEe2c7ijutO9A78zwWPDl8XLx//KM8xnzp/Q09ML1UPXe9m32+/eK+Bn4qPk4+cf6V/rn+3f8B/yY/Sn9uv5L/tz/bf///+4AIUFkb2JlAGTAAAAAAQMAEAMCAwYAABaQAAAZHAAAHHv/2wCEABUSEhwUHC0aGi04KyMrODQsKiosNEQ7Ozs7O0REREREREREREREREREREREREREREREREREREREREREREREREQBFxwcJB8kLBsbLD0sJCw9RD0wMD1EREREO0RERERERERERERERERERERERERERERERERERERERERERERERERERP/CABEIAV8C0AMBIgACEQEDEQH/xACcAAEBAQEBAQEAAAAAAAAAAAAAAwECBAUGAQEBAQEBAAAAAAAAAAAAAAAAAQIDBBAAAQIGAgMBAQEBAAAAAAAAAQACUDESMwQUQBEgMANgBRAjEQABAgYCAQMCBQUAAAAAAAACADFgsXLSA5MB0ZIRIRJBkVEyUmITYYGDBBQSAAMBAAIBBQAAAAAAAAAAAAABMVACEiGQEYGRMv/aAAwDAQACEQMRAAAA/V/me/m+/wAu4ejiAAAAAAAzRw3LAAHPSuRYAA56wwIAAAAAAAAAAAAAAAAAAAAAAAA65L9P9T+D+v5e/mheHbmFgAAAAAAAGc95ZyAADM65sCgAOW4gAAAAAAAAAAAAAAAAAAAAAAAAD0+b0S2heGNh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",
+    imageShow:false,
+
+    dataAll:{},
+
+    naturalNumberarr:[],
+    avatarUrl:'',
+    nickName:'',
+    dataArr:[],
+
+    navigateData:[],
+
+    objimage:{},
+
+    empmoudleContentData:{},
+    _empmoudleContentData0:{},
+    _empmoudleContentData1:{},
+    _empmoudleContentData2:{},
+    _empmoudleContentData3:{},
+    _empmoudleContentData4:{},
+
+    isRequrie:true,
+
+    moduleContentData:{},
+    _moduleContentDetail0:{},
+    _moduleContentDetail1:{},
+    _moduleContentDetail2:{},
+    _moduleContentDetail3:{},
+    _moduleContentDetail4:{},
+    dataType:[],
+    active:true,
+    activeIndex:0,
+    _config0: [],
+    _config1: [],
+    _config2: [],
+    _config3: [],
+    _config4: [],
+    isCarousel:false,
+
+
+    _customEntryValue:[],
+    columnNo:0,
+    is_rowCustomEntryValue:false,
+    is_cloumnCustomEntryValue:false,
+    _customEntryRowLength:0,
+
+    _carouselDetail:{},
+    _carouselDetail0:{},
+    _carouselDetail1:{},
+    _carouselDetail2:{},
+    _carouselDetail3:{},
+    _carouselDetail4:{},
+    is_carouselValue:false,
+
+    _tarbarValue:[],
+    is_tarbarValue:false,
+
+ 
+    _tarbarBackgroundColor:'',
+    _frontColor:'',
+    _checkedFontColor:'',
+    NAV_HEIGHT:wx.STATUS_BAR_HEIGHT+wx.DEFAULT_HEADER_HEIGHT+'px',
+
+  },
+
+
+
+    onLoad(options){
+        storage.removeLocalCookie();
+        console.log(options)
+        
+        const pageMain = this;
+          pageMain.setData({
+                _userInfo: {avatarUrl: "data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAAIAAD/4QMvaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjYtYzE0NSA3OS4xNjM0OTksIDIwMTgvMDgvMTMtMTY6NDA6MjIgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE5IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQjU4MDhDMDBGRkMxMUVBOTA5OUUxNzdFNEE3OURCQyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQjU4MDhDMTBGRkMxMUVBOTA5OUUxNzdFNEE3OURCQyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkFCNTA4RUI5MEZGQzExRUE5MDk5RTE3N0U0QTc5REJDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkFCNTA4RUJBMEZGQzExRUE5MDk5RTE3N0U0QTc5REJDIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+IMWElDQ19QUk9GSUxFAAEBAAAMSExpbm8CEAAAbW50clJH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l3WX4JhMmLiZJJmQmfyaaJrVm0Kbr5wcnImc951kndKeQJ6unx2fi5/6oGmg2KFHobaiJqKWowajdqPmpFakx6U4pammGqaLpv2nbqfgqFKoxKk3qamqHKqPqwKrdavprFys0K1ErbiuLa6hrxavi7AAsHWw6rFgsdayS7LCszizrrQltJy1E7WKtgG2ebbwt2i34LhZuNG5SrnCuju6tbsuu6e8IbybvRW9j74KvoS+/796v/XAcMDswWfB48JfwtvDWMPUxFHEzsVLxcjGRsbDx0HHv8g9yLzJOsm5yjjKt8s2y7bMNcy1zTXNtc42zrbPN8+40DnQutE80b7SP9LB00TTxtRJ1MvVTtXR1lXW2Ndc1+DYZNjo2WzZ8dp22vvbgNwF3IrdEN2W3hzeot8p36/gNuC94UThzOJT4tvjY+Pr5HPk/OWE5g3mlucf56noMui86Ubp0Opb6uXrcOv77IbtEe2c7ijutO9A78zwWPDl8XLx//KM8xnzp/Q09ML1UPXe9m32+/eK+Bn4qPk4+cf6V/rn+3f8B/yY/Sn9uv5L/tz/bf///+4AIUFkb2JlAGTAAAAAAQMAEAMCAwYAABKZAAAUOQAAF5z/2wCEABUSEhwUHC0aGi04KyMrODQsKiosNEQ7Ozs7O0REREREREREREREREREREREREREREREREREREREREREREREREQBFxwcJB8kLBsbLD0sJCw9RD0wMD1EREREO0RERERERERERERERERERERERERERERERERERERERERERERERERERP/CABEIAG4AcAMBIgACEQEDEQH/xACwAAADAQEBAQEAAAAAAAAAAAAABAUGAwECBwEAAwEBAQAAAAAAAAAAAAAAAAMEAgEFEAACAgICAQQDAQEAAAAAAAACAwEEAAUQERIgEzQGMDEUFjMRAAIABAIDDAcIAwAAAAAAAAECABESAyExIEFhEFFxgaGxwdEiQnIE8JEyYtITMzDhUoKyI3OTQ6M0EgABBAICAgIDAAAAAAAAAAABABARITECIGFxgTChEiID/9oADAMBAAIRAxEAAABUD1/POr2knbHpMklHh6L2tNtjMYrlt83XPMAoUUkdkhvQDz6wl0A6Ek5usR7GugHF5ebtsb6ElbQT6ElAAreY78K4Z3XZPV8F+PUbh4BezP6Ce3DDCzONB8ZvPbbW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", nickName: "昵称"}
+        });
+         wx.getSetting({
+            success (res) {
+                console.log(res)
+                if(res.authSetting['scope.userInfo']){
+                    pageMain.setData({
+                        _isShowButtonGetUserInfo:false,
+                        _isRegister:true,
+                    })
+                }else{
+                     pageMain.setData({
+                        _isShowButtonGetUserInfo:true,
+                        _isRegister:false,
+                    })
+                }
+            }
+        })
+        // 登录
+        ht.login({
+        aleardyLogin() {
+             // 显示个人信息
+                   ht.getUserInfo({
+                     success(data) {
+                         console.log(data)
+                       pageMain.setData({
+                         _userInfo: {
+                           avatarUrl: data.userInfo.avatarUrl,
+                           nickName: data.userInfo.nickName
+                         }
+                       });
+                     },
+                     fail() {
+                       pageMain.setData({
+                         //_isShowButtonGetUserInfo: true
+                       });
+                     }
+                   });
+            pageMain.getData()
+        },
+        loginSuccess(data) {
+            console.log(data)
+            pageMain.getData();
+            if (data._isRegisterContent=null) {
+            pageMain.setData({
+                _userInfo: { avatarUrl: data.avatarUrl, nickName: data.empAlias }
+            });
+            } else {
+            pageMain.setData({
+               // _isShowButtonGetUserInfo: true
+            });
+            }
+
+            if (!data.isBindEmp) {
+            pageMain.setData({
+                _isShowButtonGetPhone: true
+            });
+            }
+        },
+        loginFail() {
+          
+            pageMain.setData({
+            //_isShowButtonGetUserInfo: true,
+            _isShowButtonGetPhone: true
+            });
+        }
+        });
+       
+        if(wx.getStorageSync("bindEmpID")!=''&&wx.getStorageSync("bindEmpID")!=null){
+            pageMain.setData({
+                 _isRegisterContent:true,
+            })
+        }else{
+             pageMain.setData({
+                 _isRegisterContent:false,
+            })
+        }
+       
+    },
+    cacleImageShow(){
+        this.setData({
+                imageShow:false,
+            })
+    },
+    goToQRcode:function(e){
+       
+        ht.navigate({
+            redirectUrl:"/AppHR/EmpInfo/QRCode"
+        })
+    },
+    linkToEmpSignIn:function(){
+        this.setData({
+            imageShow:true,
+        })
+    },
+    linkToEmpInfo:function(){
+         ht.navigate({
+            redirectUrl:"/AppHR/EmpInfo/EmpInfo"
+        })
+    },
+    linkToEmpSubscribe:function(){
+         ht.navigate({
+            redirectUrl:"/AppInteract/SignIn/Index"
+        })
+    },
+    gotoClickLogoJump:function(e){
+        console.log(e)
+        if(e.target.dataset.url!=""&&e.target.dataset.url!=null&&e.target.dataset.url!="undefined"){
+            ht.navigate({
+            redirectUrl:e.target.dataset.url
+            })
+        }
+         
+       
+    },
+
+
+    naturalNumber:function(num){
+        const arr = [];
+        for(var i = 0 ;i<num;i++){
+            arr.push(i);
+        }
+    
+        return arr;
+    },
+
+
+      // 获取用户信息
+    bindGetUserInfo: function(e) {
+     
+        
+        wx.setStorageSync("EncryptedData", e.detail.encryptedData);
+        wx.setStorageSync("IV",e.detail.iv)
+        if (e.detail.errMsg == "getUserInfo:ok") {
+        // 授权成功
+         setTimeout(() => {
+           this.setData({
+            avatarUrl: e.detail.userInfo.avatarUrl,
+            nickName: e.detail.userInfo.nickName,
+            _isShowButtonGetUserInfo: false,
+            _isRegister:true,
+        });
+        }, 500);
+        
+
+        ht.updateUserInfo({
+            EncryptedData: e.detail.encryptedData,
+            IV: e.detail.iv,
+
+            IsGetEmpPoint: true,
+            IsGetCouponNum: true,
+
+            success: function(res) {
+         
+            }
+        });
+        } else {
+        // 授权失败
+     
+        }
+    },
+
+
+    //注册会员
+    getPhoneNumber:function(e){
+     
+        const pageMain = this;
+        const empModuleObj={};
+         ht.registerEmp({
+            EncryptedData:e.detail.encryptedData,
+           
+            IV:e.detail.iv,
+           
+            IsGetEmpPoint: true,
+            IsGetCouponNum: true,
+            success(data){
+            
+               
+               
+                pageMain.empModule(e.target.dataset.arr,pageMain.activeIndex,e.target.dataset.index,empModuleObj)
+                 wx.setStorageSync("isBindEmp",true)
+                    pageMain.setData({
+                        _isRegister:false,
+                        _isRegisterContent:true,
+                    })
+            },
+            fail(){
+
+            }
+        });
+    },
+    /*
+    setting(){
+        wx.openSetting({
+        success (res) {
+            console.log(res.authSetting)
+             res.authSetting = {
+               "scope.userInfo": true,
+               "scope.userLocation": true
+             }
+        }
+        })
+    },
+    */
+    getData(){
+        const pageMain = this;
+        const value = config.defaultPageLayoutName!=""?config.defaultPageLayoutName:Index;
+        ht.setForm({
+        url:"/pageLayout/GetEntityByNameAsync",
+        data: {
+            value: value,
+          
+        },
+        success: function(data) {
+          
+            const params = "_config"+this.data.activeIndex;
+            pageMain.setData({
+                [params]: data.listNavigate[0],
+                dataAll:data,
+                navigateData:data.listNavigate,
+            });
+           
+            pageMain.setShowData(pageMain.data[params],pageMain.data.activeIndex);    
+              pageMain.navigationConfig(data)     
+        },
+        fail: function(data) {
+            
+        }
+        });
+    },
+    // 设置单个导航的数据
+     setShowData(data,num){
+      
+        if(data.navigateType==10){
+            this.setData({
+                dataArr:data.listModule,
+            })
+            this.choosePageModule(data.listModule,num)
+           
+        }
+       
+    },
+
+    goBannerLink(e){
+         const url = e.currentTarget.dataset.url;
+         if(url!=null){
+              ht.navigate({
+                redirectUrl: url,
+            // isDirect:true,
+            });
+         }
+         
+    },
+
+    goImageLink(e){
+           const url = e.currentTarget.dataset.url;
+           const linkjumptype = e.currentTarget.dataset.linkjumptype;
+          if(linkjumptype==10){ //直跳
+                ht.navigate({
+                redirectUrl: url,
+               // isDirect:true,
+                });
+            }
+            if(linkjumptype==20){ //apploading跳转
+                wx.showToast({
+                    title: 'apploading跳转',
+                    icon: 'success',
+                    duration: 2000
+                    })
+            }
+            if(linkjumptype==30){ //openloading跳转
+                wx.showToast({
+                title: 'openloading跳转',
+                icon: 'success',
+                duration: 2000
+                })
+            }
+
+    },
+
+    goFucntionLink(e){
+      
+        const url = e.currentTarget.dataset.url;
+        const jumpType = e.currentTarget.dataset.jumptype;
+        const linkjumptype = e.currentTarget.dataset.linkjumptype;
+        const appID = e.currentTarget.dataset.appid;
+        const phone = e.currentTarget.dataset.phone;
+        const isNew = e.currentTarget.dataset.isnew;
+        const isHot = e.currentTarget.dataset.ishot;
+        const isOnlyEmp = e.currentTarget.dataset.isonlyemp;
+        const isComingSoon = e.currentTarget.dataset.iscomingsoon;
+        const comingSoonText = e.currentTarget.dataset.comingsoontext;
+        if(isOnlyEmp){
+            if(wx.getStorageSync('bindEmpID')!=null&&wx.getStorageSync("bindEmpID")!='undefined'&&wx.getStorageSync("bindEmpID")!=""){
+                //-- emp
+            }
+            else{                              
+                wx.showToast({
+                    title: "请注册为会员",
+                    //icon: 'success',
+                    duration: 2000
+                })
+            return 
+            }
+             
+        }
+
+         if(isComingSoon){
+                wx.showToast({
+                    title: comingSoonText,
+                    //icon: 'success',
+                    duration: 2000
+                })
+            return 
+        }
+
+        if(jumpType==110){//跳转链接
+            if(linkjumptype==10){ //直跳
+                if(url!=null&&url!=""&&url!='undefined'){
+                    ht.navigate({
+                    redirectUrl: url,
+                    isDirect:true,
+                    });
+                }
+               
+            }
+            if(linkjumptype==20){ //apploading跳转
+             if(url!=null&&url!=""&&url!='undefined'){
+                ht.navigate({
+                redirectUrl: url,
+                
+                });
+             }
+            }
+            if(linkjumptype==30){ //openloading跳转
+                wx.showToast({
+                title: 'openloading跳转',
+                icon: 'success',
+                duration: 2000
+                })
+            }
+        
+        }
+        if(jumpType==210){//跳转小程序
+             wx.navigateToMiniProgram({
+                    appId: appID,
+                    path: 'pages/tominiprogram/tominiprogram',
+                    extraData: {
+                        foo: 'bar'
+                    },
+                    envVersion: 'develop',
+                    success(res) {
+                        // 打开成功
+                      
+                    }
+                })
+        }
+        if(jumpType==810){//拨打电话
+              this.callphone(phone)
+        }
+        // ht.navigate({
+        //     redirectUrl: url,
+        //     isDirect:true,
+        // });
+
+    },
+    callphone(phone){
+                wx.showActionSheet({
+                    itemList:[phone],
+                    success:function(res){
+                       
+                        wx.makePhoneCall({
+                            phoneNumber:phone,
+                            success:function(){
+                               
+                            },
+                            fail:function(){
+                               
+                            }
+                        })
+                        if(!res.cancel){
+                           
+                        }
+                    }
+                })
+            },
+// 导航栏切换
+    btntarbar(e){
+     
+        const num = e.currentTarget.dataset.num;
+        const isOnlyEmp = e.currentTarget.dataset.isonlyemp;
+        if(isOnlyEmp){
+            
+            if(wx.getStorageSync("isBindEmp")){
+                 this.setData({
+                    dataArr:[],
+                    activeIndex:num,
+                    
+                })
+                this.setShowData(this.data.navigateData[num],this.data.activeIndex); 
+            }else{
+                
+                const pageMain =this;
+              
+                    wx.showModal({
+                    title: '提示',
+                    content: '请先注册为会员',
+                    success: function (sm) {
+                        if (sm.confirm) {
+                           
+                        } else if (sm.cancel) {
+                            
+                        }
+                        }
+                })
+              
+                 
+            }
+
+        }else{
+            
+            this.setData({
+                dataArr:[],
+                activeIndex:num,
+                
+            })
+            this.setShowData(this.data.navigateData[num],this.data.activeIndex); 
+        }
+
+         
+        const pageMain = this;
+      
+    },
+    // 导航页面跳转
+     tarbarLink(redirectPageType,id,appID,num) {
+            if(redirectPageType==10){ //标准页面
+           
+            const pageMain = this;
+            const params = "_config"+num;
+          
+                if(this.data[params].length==0){
+                    ht.setForm({
+                        url: "/miniProgram/GetEntityByChildrenPageIdAsync",
+                        data: {
+                            id: id,
+                            // 23935509
+                        },
+                        success: function(data) {
+            
+                            pageMain.setData({
+                            [params]: data,
+                            isCarousel:false,
+                            is_membership_card:false,
+                            is_personalInfomationValue:false,
+                            is_cloumnCustomEntryValue:false,
+                            is_carouselValue:false,
+                            // _isBottomNavigationActive:false,
+                            });
+                           
+                            pageMain.isData(pageMain.data[params],num)            
+                        },
+                        fail: function(data) {
+                            
+                        }
+                    });
+
+                }else{
+                 
+                    pageMain.setData({
+                        isCarousel:false,
+                        is_membership_card:false,
+                        is_personalInfomationValue:false,
+                        is_cloumnCustomEntryValue:false,
+                        is_carouselValue:false,
+                    })
+                   pageMain.isData(pageMain.data[params],num)
+                }
+            }
+            if(redirectPageType==20){ //网页链接
+
+            }
+            if(redirectPageType==30){ //小程序
+                wx.navigateToMiniProgram({
+                    appId: appID,
+                    path: 'pages/tominiprogram/tominiprogram',
+                    extraData: {
+                        foo: 'bar'
+                    },
+                    envVersion: 'develop',
+                    success(res) {
+                        // 打开成功
+                      
+                    }
+                })
+            }
+        },
+/**
+   * 请求数据是异步的，在onshow，onready生命周期中可能会得到undefined，用回调函数获取数据
+   */
+
+  // 动态导航配置
+  navigationConfig(data) {
+    //   动态设置当前页面的标题
+    wx.setNavigationBarTitle({
+      title: data.displayName
+    });
+
+    
+ 
+    // 设置页面导航条颜色
+    wx.setNavigationBarColor({
+        frontColor: "#000000",
+      backgroundColor: data.navigateBackgroundColor,
+      animation: {
+        //动画效果
+        duration: 400, //动画变化的时间 ms
+        timingFunc: "easeIn" // 动画变化方式 linear easeOut easeIn easeInOut
+      },
+      success: function() {},
+      fail: function() {},
+      complete: function() {}
+    });
+
+    // 设置底部导航
+    wx.setTabBarStyle({
+      color: "#FF0000",
+      selectedColor: "#00FF00",
+      backgroundColor: "#0000FF",
+      borderStyle: "white"
+    });
+    
+    this.setData({
+        _tarbarBackgroundColor:data.navigateBackgroundColor,
+        _frontColor:data.navigateTitleColor,
+        _checkedFontColor:data.navigateTitleSelectColor,
+    })
+  },
+
+
+    // 页面信息
+    choosePageModule(data,num){
+   
+      const memberValue=[];
+      const personalInfomationValue=[];
+      const carouselValue=[];
+      const customEntryValue=[];
+    // 轮播
+      const subCarouseObj={};
+      const moduleContentData={};
+      const empModuleObj={};
+    data.map((value,index)=>{
+       
+    // 循环miniProgramPageBlockInfo
+        if(value.moduleType==110){ //会员页
+            if(wx.getStorageSync("bindEmpID")!=''&&wx.getStorageSync("bindEmpID")!=null){
+                this.setData({
+                    _isRegisterContent:true,
+                })
+            }else{
+                this.setData({
+                    _isRegisterContent:false,
+                })
+            }
+
+          
+           
+                 this.empModule(value.moduleEmpData,num,index,empModuleObj)
+           
+           
+        }else if(value.moduleType==900){ //图片
+
+        }else if(value.moduleType==910){//轮播
+            this.carousel(value,num,index,subCarouseObj)
+        }else if(value.moduleType==920){//图文
+            this.moduleContentData(value,num,index,moduleContentData);
+
+           
+           
+        }else if(value.moduleType==930){//功能项
+            this.functionModule(value.moduleFunctionData)
+        }
+        
+    })
+    },
+    // 图文
+    moduleContentData(data,num,index,moduleContentObj){
+      
+      const pageMain = this;
+        const moduleContentPage = "_moduleContentDetail"+this.data.activeIndex;
+        const param = "_moduleContentSubDetail"+this.data.activeIndex+index;
+        if(Object.keys(this.data["_moduleContentDetail"+this.data.activeIndex]).length==0){
+                ht.setForm({
+                    url:"/content/GetEntityByNameAsync",
+                    data:{
+                        value:data.moduleContentData.contentName,
+                    },
+                    success:function(data){
+                    
+                       
+                         moduleContentObj[param]=data;
+                       
+                    },
+                    fail:function (data) { 
+                    }
+                    
+                }) 
+                  setTimeout(() => {
+                        pageMain.setData({
+                            ["_moduleContentDetail"+this.data.activeIndex]:moduleContentObj,
+                            // ['_carouselDetail'+pageMain.data.activeIndex]:pageMain.data['_carouselDetail'+pageMain.data.activeIndex+index],
+                            moduleContentData:pageMain.data["_moduleContentDetail"+this.data.activeIndex]
+                        })
+                    }, 300);
+
+                    setTimeout(() => {
+                         var params = '_moduleContentSubDetail'+num+index;
+                    pageMain.setData({
+                    // ["_moduleContentSubDetail"+this.data.activeIndex+index]:pageMain.data[param],
+                    moduleContentData:pageMain.data["_moduleContentDetail"+this.data.activeIndex],
+                    //objimage[params]:params
+                    })
+                    var article = this.data.moduleContentData['_moduleContentSubDetail'+num+index].showText;
+                    WxParse.wxParse(params,'html',article,pageMain,0,config.imageRootPath)
+                }, 500);
+               
+
+        }else{
+            pageMain.setData({
+             moduleContentData:pageMain.data["_moduleContentDetail"+this.data.activeIndex]
+            })
+             var article = this.data.moduleContentData['_moduleContentSubDetail'+num+index].showText;
+            var params = '_moduleContentSubDetail'+num+index;
+            WxParse.wxParse(params,'html',article,pageMain,0,config.imageRootPath)
+        }
+       
+    },
+
+
+    // 会员
+    empModule(data,num,index,empModuleObj){
+        const empmodulePage = "_empmoudleContentData"+this.data.activeIndex;
+        const param = "_empmoduelContentSubDetial"+this.data.activeIndex+index;
+        const pageMain =this;
+        if(Object.keys(this.data["_empmoudleContentData"+this.data.activeIndex]).length==0||this.data.isRequrie){
+                var len = data.listItem.length>=3?3:data.listItem.length;
+                var isGetEmpMoney = false;
+                var isGetEmpPoint = false;
+                var isGetEmpGrowth = false;
+                var isGetCouponNum = false;
+                for(let i = 0;i<len;i++){
+                    const param = data.listItem[i].itemType;
+                    switch(param){
+                        case 110:
+                            isGetEmpMoney = true;
+                            break;
+                        case 120:
+                            isGetEmpPoint = true;
+                            break;
+                        case 130:
+                            isGetEmpGrowth = true;
+                            break;
+                        case 310:
+                            isGetCouponNum = true;
+                            break;
+                    }
+                }
+            ht.setForm({
+                url:"/weixinEmpMerge/QueryMergeDataAsync",
+                data:{
+                   
+                    isGetEmpMoney:isGetEmpMoney,
+                    isGetEmpPoint:isGetEmpPoint,
+                    isGetEmpGrowth:isGetEmpGrowth,
+                    isGetCouponNum:isGetCouponNum,
+                    isShowPerfectEmpInfo:data.isShowPerfectEmpInfo,
+                    isShowSignIn:data.isShowSignIn,
+                    isShowWeixinEmpSubscribe:data.isShowWeixinEmpSubscribe
+                },
+                success:function(data){
+                   
+                    storage.isBindEmp(data.isBindEmp);
+                    if(!data.isBindEmp){
+                        pageMain.setData({
+                            _isRegisterContent:false,
+                            _isRegister:true,
+                            
+                            isRequrie:true,
+
+                        })
+                    }else{
+                        pageMain.setData({
+                            _isRegisterContent:true,
+                            _isRegister:false,
+                          
+                            isRequrie:false,
+                        })
+                    }
+                    if(data.endDay!=null){
+                         var  endDaystr = data.endDay.replace(/-/g,".").substring(0,10);
+                    }
+                    if(data.phone!=null){
+                         var  phoneFilter = data.phone.replace(/^(\d{3})\d{4}(\d{4})$/,"$1****$2")
+                    }
+                    if(data.imageURL==null){
+
+                    }
+                    var endDayObj={
+                        endDaystr:endDaystr,
+                        phoneFilter:phoneFilter
+                    }
+                    empModuleObj[param]=Object.assign(data,endDayObj);
+                }
+            })
+            
+             setTimeout(() => {
+                        this.setData({
+                            ["_empmoudleContentData"+this.data.activeIndex]:empModuleObj,
+                            empmoudleContentData:empModuleObj
+                        })
+                    }, 300);
+             setTimeout(() => {
+            this.setData({
+          
+              empmoudleContentData:this.data["_empmoudleContentData"+this.data.activeIndex],
+            })
+            
+        }, 500);
+        }else{
+            this.setData({
+                        empmoudleContentData:this.data["_empmoudleContentData"+this.data.activeIndex]
+                })
+        }
+
+       
+    },
+    //  功能项
+    functionModule(data){
+      const functionNum =  this.naturalNumber(10);
+         this.setData({
+            naturalNumberarr:functionNum,
+            _customEntryValue:data,
+            is_rowCustomEntryValue:true,
+            columnNo:data.showItemNumByRow,
+            _customEntryRowLength:Math.ceil(data.listItem.length/data.showItemNumByRow),
+        })
+      //     is_rowCustomEntryValue:false,
+      // is_cloumnCustomEntryValue:false,
+    
+        // this.setData({
+        //     _customEntryValue:data,
+        //     is_cloumnCustomEntryValue:true,
+        // })
+
+    },
+
+    // 轮播
+    carousel(data,num,index,list){
+        //  this.setData({
+        //     _carouselValue:data,
+        //     is_carouselValue:true,
+        // })
+        const pageMain =this;
+
+        const carouselPage = "_carouselDetail"+this.data.activeIndex;
+        const param = "_carouselSubDetail"+this.data.activeIndex+index;
+    
+        if(Object.keys(this.data['_carouselDetail'+this.data.activeIndex]).length==0){
+      
+              
+                ht.setForm({
+                    url:"/banner/GetBannerByNameAsync",
+                    data:{
+                        value:data.moduleBannerData.bannerName,
+                    },
+                    success:function(data){
+                    
+                       
+                        list[param]=data;
+                    },
+                    fail:function (data) { 
+                    }
+                }) 
+          
+            setTimeout(() => {
+                pageMain.setData({
+                    ['_carouselDetail'+pageMain.data.activeIndex]:list,
+                    // ['_carouselDetail'+pageMain.data.activeIndex]:pageMain.data['_carouselDetail'+pageMain.data.activeIndex+index],
+                     _carouselDetail:pageMain.data['_carouselDetail'+pageMain.data.activeIndex]
+                })
+            }, 300);
+            setTimeout(() => {
+            pageMain.setData({
+            // ['_carouselSubDetail'+pageMain.data.activeIndex+index]:pageMain.data[param],
+              _carouselDetail:pageMain.data['_carouselDetail'+pageMain.data.activeIndex]
+            })
+            
+        }, 500);
+        }
+        else{
+             pageMain.setData({
+             _carouselDetail:pageMain.data['_carouselDetail'+pageMain.data.activeIndex]
+            })
+        }
+    },
+    // 导航
+    chooseTarbar(data){
+      
+        const tarbarValue=[];
+        data.map((value,index)=>{
+            tarbarValue.push(value)
+        })
+       
+        this.setData({
+            _tarbarValue:tarbarValue
+        })
+    },
+    
+   
+    onShow(options) {
+      
+  }
+};
+</script>
+
+<style lang="less">
+@import "./static/utils/mixins.less";
+page{
+    background:#f7f7f7;
+}
+.ui-content{
+    width:718rpx;
+    margin:0 auto;
+    box-sizing:content-box;
+    padding:16rpx;
+    padding-top:21rpx;
+    background:#f7f7f7;
+    padding-bottom:0;
+    min-height:100%;
+    border-radius:20rpx;
+    overflow:hidden;
+    &.ui-full{
+        width:718rpx;
+        padding:0;
+        margin:12rpx auto;
+    }   
+    .ui-linetitle{
+       
+
+        text-indent:40rpx;
+        line-height:88rpx;
+        font-size:32rpx;
+        border-bottom:1rpx solid #f3f3f3;
+        color:#0d0e1a;
+        font-size:30rpx;
+    }
+}
+.ui-imageContent{
+    image{
+        width:702rpx;
+        margin:0 auto;
+    }
+}
+.ui-picImage{
+    width:100%;
+}
+.content {
+  .mix-flex-center();
+}
+.ui-size {
+  font-size: 100rpx;
+  color: #f99;
+}
+.btn_hover_list{
+    opacity: 0.6;
+    background-color: #333;
+}
+
+.fixed-view-content {
+  padding: 0 0;
+  height: 98rpx;
+  line-height:1;
+  text-align: center;
+  display: flex;
+  color: #fff;
+  background-color: #ccc;
+  z-index: 99;
+  .fixed-items{
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  }
+  .tarimg{
+      width: 44rpx;
+      height: 44rpx;
+      margin-bottom: 8rpx;
+      margin-top: 7rpx;
+  }
+  .displayname{
+      font-size:22rpx;
+      color:#000
+  }
+  
+}
+.WxEmojiView.wxParse-inline{
+    height:300rpx;
+}
+.btnitems {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+  position: relative;
+  overflow: hidden;
+  .ui-myiconvip{
+     
+  	width: 66rpx;
+	    height: 66rpx;
+        position: absolute;
+        left: 0;
+        top: 0;
+
+     &>image{
+      	width: 66rpx;
+	    height: 66rpx;
+     }
+    
+  }
+      .ui-myiconnew{
+    
+   width: 56rpx;
+	height: 32rpx;
+     
+      position: absolute;
+      left: 11rpx;
+      top:20rpx;
+      &>image{
+         width: 56rpx;
+	height: 32rpx;
+      }
+    
+   
+  }
+
+
+  .ui-myiconhot{
+    
+   width: 56rpx;
+	height: 32rpx;
+     
+      position: absolute;
+      right: 11rpx;
+      top:20rpx;
+      &>image{
+         width: 56rpx;
+	height: 32rpx;
+      }
+    
+   
+  }
+  .ui-myiconwait{
+      width: 92rpx;
+      height: 32rpx;
+      position: absolute;
+      right: 0;
+      top: 0;
+    &>image{
+          width:92rpx;
+          height:32rpx;
+      }
+  }
+}
+.text {
+  margin-left: 20rpx;
+}
+.content-warpper {
+  display: flex;
+  height: 200rpx;
+}
+.image {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin-left: 40rpx;
+  align-self: center;
+}
+.username {
+  font-size: 40rpx;
+  align-self: center;
+  margin-left: 40rpx;
+  margin-right: 40rpx;
+}
+.btn {
+  align-self: center;
+}
+.membership_card {
+    width: 100%;
+    height: 350rpx;
+    border-radius: 10rpx;
+    margin: 0 auto;
+    margin-bottom: 24rpx;
+    color: #000;
+    font-size: 50rpx;
+}
+.personal{
+    margin-bottom: 24rpx;
+    background:#fff;
+    border-radius:10rpx;
+    height:350rpx;
+    border-radius:20rpx;
+    display:flex;
+    background:#0960db;
+    color:#fff;
+    flex-direction:column;
+    padding-left:24rpx;
+    position: relative;
+    overflow: hidden;
+       
+    .image{
+                width: 100rpx;
+                height: 100rpx;
+                margin:0;
+                margin-right:24rpx;
+                border-radius: 50%;
+                z-index: 10;
+            
+            }
+    
+    .ui-text{
+        margin-top:138rpx;
+        font-size:32rpx;
+    }
+    .personal-title{
+        display:flex;
+        margin-top: 32rpx;
+        align-items:center;
+        position:relative;
+        .ui-phoneitems{
+            margin-top: 16rpx;
+        }
+        .person-emName{
+            font-size:32rpx;
+            margin-bottom:56rpx;
+            z-index: 11;
+           vertical-align: middle;
+        }
+        .person-phoneNum{
+            font-size:24rpx;
+            line-height: 34rpx;
+            margin-right: 8rpx;
+            border-radius: 15rpx;
+            padding: 0rpx 12rpx;
+            background: rgba(0,0,0,.1);
+            
+        }
+        .gold-membership-card{
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 20rpx;
+            line-height: 34rpx;
+            color: #804d1a;
+            padding:0 8rpx;
+            height: 36rpx;
+            border-radius: 18rpx;
+            background-image: linear-gradient(90deg,rgb(230,211,174) 0%,rgb(199,166,118) 100%);
+            text-align:center;
+            margin-left: 16rpx;
+        }
+        .person-qrcode{
+            width: 44rpx;
+	        height: 46rpx;
+            position:absolute;
+            top:20rpx;
+            right:46rpx;
+        }
+       
+    }
+    .ui-personalitems{
+        position: absolute;
+        height: 120rpx;
+        right: 22rpx;
+        bottom: 38rpx;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      
+        .ui-personalitem{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            width: 176rpx;
+            height: 40rpx;
+            border-radius: 40rpx;
+            background: rgba(0,0,0,.1);
+            font-size: 20rpx;
+            margin-top:10rpx;
+            color: #fff;
+            text-align: center;
+             .ui-tipimg{
+                width:0.58rem;
+                height:0.58rem;margin-right:20rpx;
+            }
+        }
+    }
+}
+
+.ui-button{
+    width:300rpx;
+    height:70rpx;
+    position:absolute;
+    left:0;
+    right:0;
+    margin:0 auto;
+    bottom:60rpx;
+    border-radius:40rpx;
+    overflow:hidden;
+     button{
+        position:static;
+        width:300rpx;
+        height:70rpx;
+        line-height: 70rpx;
+        margin:0;
+        &::after{
+            display:none
+        }
+    }
+   
+}
+.three_swiper{
+    margin-bottom:24rpx;
+    height:240rpx;
+  .swiper_item{
+    display: flex;
+    height: 100%;
+    flex-direction:column;
+    align-items:center;
+    border-radius:10rpx;
+    margin-bottom:24rpx;
+    overflow:hidden;
+    image{
+      flex: 1;
+      margin-right: 5px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+.ui-entry{
+    display:flex;
+    background:#fff;
+    flex-wrap:wrap;
+    .ui-col{
+        align-items:center;
+    };
+    .ui-entryImage{
+        width:48rpx;
+        height:48rpx;
+        margin-top:40rpx;
+        margin-bottom:8rpx;
+    };
+    .ui-clotext{
+        margin-bottom:40rpx;
+        color:rgb(51,51,51);
+        font-size:26rpx;
+        line-height:46rpx;
+    }
+}
+
+
+
+    .left_icon{
+       
+     
+        text-align: center;
+        line-height: 50px;
+    
+        overflow:hidden;
+        &>image{
+            width:38rpx;
+            height:38rpx;
+        }
+    }
+    .left_icon2{
+        background-color: #FF7360;
+    }
+    .left_icon3{
+        background-color: #39CCC5;
+    }
+    .text{
+        text{
+            font-size: 16px;
+            color: #313338;
+        }
+        view{
+            color: #9C9FA4;
+            font-size: 12px;
+            .mix-text-overflow();
+        }
+    }
+
+.ui-lineScroll{
+    
+    display:flex;
+    flex-direction:column;
+    margin:12rpx 0;
+    .ui-lineScrollContent{
+        width:200rpx;
+        height:200rpx;
+        display:inline-block;
+        .ui-lineScrollContentDisplayFlex{
+            width:100%;
+            height:100%;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            position:relative;
+            image{
+                width:48rpx;
+                height:48rpx;
+            }
+            text{
+                font-size:28rpx;
+                line-height:48rpx;
+                color:#1a1a1a;
+            }
+             .ui-myiconvip{
+                
+                width: 66rpx;
+                    height: 66rpx;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+
+                &>image{
+                    width: 66rpx;
+                    height: 66rpx;
+                }
+                
+            }
+            .ui-myiconhot{
+                
+            width: 56rpx;
+                height: 32rpx;
+                
+                position: absolute;
+                right: 36rpx;
+                top:20rpx;
+                &>image{
+                    width: 56rpx;
+                height: 32rpx;
+                }
+                
+            
+            }
+            .ui-myiconwait{
+                width: 92rpx;
+                height: 32rpx;
+                position: absolute;
+                right: 0;
+                top: 0;
+                &>image{
+                    width:92rpx;
+                    height:32rpx;
+                }
+            }
+            
+        }
+       
+        
+    }
+}
+
+.ui-borderRight{
+    border-right:1rpx solid #f3f3f3;
+}
+.ui-borderNone{
+    border-right:none;
+}
+
+.bg_ccc{
+    background:#ccc;
+}
+.ui-row-border-bottom:after {
+
+border-bottom: 0px solid #e6e6e6;
+
+
+}
+.ui-lineScroll{
+    .ui-linetitle{
+       
+        text-indent:40rpx;
+        line-height:88rpx;
+        font-size:32rpx;
+        border-bottom:1rpx solid #f3f3f3;
+    }
+}
+.ui-contentline{
+    margin:24rpx 16rpx;
+    border-radius:20rpx;
+    background:#fff;
+    .ui-linetitle{
+    
+        text-indent:40rpx;
+        line-height:88rpx;
+        font-size:32rpx;
+        border-bottom:1rpx solid #f3f3f3;
+    }
+    .text{
+    margin:0;
+    border-bottom:1px solid #f3f3f3;
+        view{
+            overflow:visible;
+        }
+        .line-vip{
+            width:52rpx;
+            height:30rpx;
+        }
+       .ui-linemiddle{
+           display:flex;
+           align-items:center;
+         
+           .line-vip{
+               margin-left:20rpx;
+           }
+       }
+       .line-hot{
+            width: 48rpx;
+            height: 28rpx;
+            margin-left:14rpx;
+            position:relative;
+            top:-28rpx;
+
+       }
+       .line-new{
+           width: 48rpx;
+           height: 28rpx;
+            margin-left:14rpx;
+            position:relative;
+            top:-28rpx;
+       }
+       .line-comingsoon{
+           width: 92rpx;
+            height: 32rpx;
+            margin-left:20rpx;
+       }
+    }
+    .ui-leftarrow{
+        width:20rpx;
+        height:20rpx;
+        margin-left:16rpx;
+    }
+    .ui-left{
+        display:flex;
+        justify-content:right;
+        align-items:center;
+        text{
+            color: #999999;
+        }
+    }
+}
+.emp-item{
+    display:flex;
+    align-items:center;
+    height:150rpx;
+    overflow:hidden;
+    &>view{
+        flex:1;
+        text-align:center;
+    }
+    .ui-empitems{
+        flex:1;
+        display:flex;
+        flex-direction:column;
+        .ui-empitemsNo{
+            font-size:32rpx;
+            color:#000;
+        }
+        .ui-empitemstitle{
+            font-size:26rpx;
+            color:#666;
+            margin-top:22rpx;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            image{
+                width:26rpx;
+                height:26rpx;
+                margin-right:10rpx;
+            }
+        }
+    }
+}
+</style>
+
